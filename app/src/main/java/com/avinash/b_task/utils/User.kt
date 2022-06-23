@@ -1,9 +1,7 @@
 package com.avinash.b_task.utils
 
 
-/**
- * Created by prabin
- */
+
 class User {
 
     var username:String

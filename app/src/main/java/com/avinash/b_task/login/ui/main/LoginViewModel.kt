@@ -1,20 +1,17 @@
 package com.avinash.b_task.login.ui.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.avinash.b_task.utils.Session
 import com.avinash.b_task.utils.SessionManager
+import com.avinash.b_task.utils.User
 
 
-class LoginViewModel (private val session: SessionManager,application: Application): ViewModel() {
+class LoginViewModel (private val sessionManager: SessionManager, application: Application): ViewModel() {
     // TODO: Implement the ViewModel
 
-    val inputUsername = MutableLiveData<String>()
-
-    val inputPassword = MutableLiveData<String>()
     private val _navigatetoMainScreen = MutableLiveData<Boolean>()
 
     val navigateToMainScreen: LiveData<Boolean>
@@ -43,36 +40,36 @@ class LoginViewModel (private val session: SessionManager,application: Applicati
 
     fun donetoast() {
         _errorToast.value = false
-        Log.i("MYTAG", "Done taoasting ")
     }
 
 
     fun donetoastErrorUsername() {
         _errorToastUsername.value = false
-        Log.i("MYTAG", "Done taoasting ")
     }
 
     fun donetoastInvalidPassword() {
         _errorToastInvalidPassword.value = false
-        Log.i("MYTAG", "Done taoasting ")
     }
 
-    fun loginButton() {
-        if (inputUsername.value == null || inputPassword.value == null) {
+    fun onClick(userName:String,password:String) {
+        if (userName.isEmpty() || password.isEmpty()) {
             _errorToast.value = true
         } else {
-            val usersNames = session.findOne()!!.user
-            if (usersNames != null) {
-                if (usersNames.password == inputPassword.value) {
-                    inputUsername.value = null
-                    inputPassword.value = null
+            var session=sessionManager.findOne()
+            if (userName.isNotEmpty() && userName == "avinash") {
+                if(password.isNotEmpty() && password == "12345") {
+                    if(session==null){
+                        session= Session()
+                    }
+                    session!!.user = User(userName, password)
+                    sessionManager.persist(session)
                     _navigatetoMainScreen.value = true
-                } else {
+                }else
                     _errorToastInvalidPassword.value = true
-                }
-            } else {
+                } else {
                 _errorToastUsername.value = true
+
+                }
             }
-        }
     }
 }

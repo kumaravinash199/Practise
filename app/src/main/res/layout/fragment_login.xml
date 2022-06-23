@@ -14,33 +14,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
-    <TextView
-        android:id="@+id/lblTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:lineSpacingExtra="8sp"
-        android:text="Please Input username as avinash and password 123456"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        />
 
-        <EditText
-            android:id="@+id/etEmailAddress"
+        <TextView
+            android:id="@+id/lblTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:lineSpacingExtra="8sp"
+            android:text="Please Input username and password."
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblTitle"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
             android:ems="10"
-            android:hint="E-Mail Address"
+            android:hint="Username"
             android:inputType="textEmailAddress"
-            android:text="@={LoginViewModel.EmailAddress}"
-            android:layout_below="@+id/lblTitle"
-            />
+             />
 
         <EditText
             android:id="@+id/etPassword"
@@ -52,21 +51,18 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:text="@={LoginViewModel.Password}"
-           android:layout_below="@+id/etEmailAddress" />
+           android:layout_below="@+id/etUsername" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
+            android:layout_below="@+id/etPassword"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
             android:text="Click to Login"
-            android:onClick="@{(v) -> LoginViewModel.onClick(v)}"
-            android:textSize="18sp"
-            android:layout_below="@+id/etPassword"
-            />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

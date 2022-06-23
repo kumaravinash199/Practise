@@ -3,7 +3,6 @@ package com.avinash.b_task.login.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,6 @@ class LoginFragment : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         val application = requireNotNull(this.activity).application
-
 
         val repository = SessionManager(activity as Context)
 
@@ -63,7 +61,7 @@ class LoginFragment : Fragment() {
             if (hasError == true) {
                 Toast.makeText(
                     requireContext(),
-                    "User doesnt exist,please Register!",
+                    "User doesn't exist, enter avinash as username",
                     Toast.LENGTH_SHORT
                 ).show()
                 loginViewModel.donetoastErrorUsername()
@@ -72,7 +70,7 @@ class LoginFragment : Fragment() {
 
         loginViewModel.errorToastInvalidPassword.observe(viewLifecycleOwner, Observer { hasError ->
             if (hasError == true) {
-                Toast.makeText(requireContext(), "Please check your Password", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "Please enter password 12345", Toast.LENGTH_SHORT)
                     .show()
                 loginViewModel.donetoastInvalidPassword()
             }
@@ -80,10 +78,11 @@ class LoginFragment : Fragment() {
 
         loginViewModel.navigateToMainScreen.observe(viewLifecycleOwner, Observer { hasFinished ->
             if (hasFinished == true) {
-                Log.i("MYTAG", "insidi observe")
-                navigateDashboard()
                 loginViewModel.doneNavigatingMainScreen()
             }
+        })
+        binding.btnLogin.setOnClickListener(View.OnClickListener {
+            onClick()
         })
     }
 
@@ -91,4 +90,12 @@ class LoginFragment : Fragment() {
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
     }
+
+    fun onClick(){
+        var username:String=binding.etUsername.text.toString()
+        var password:String = binding.etPassword.text.toString()
+        loginViewModel.onClick(username,password)
+    }
+
+
 }
