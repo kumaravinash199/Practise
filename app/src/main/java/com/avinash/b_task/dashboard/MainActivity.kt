@@ -12,7 +12,6 @@ import android.text.InputType
 import android.view.View
 import android.view.WindowInsets
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -114,9 +113,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     window.insetsController?.show(WindowInsets.Type.statusBars())
                 } else {
-                    val decorView = window.decorView
-                    val uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    decorView.systemUiVisibility = uiOptions
+                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 }
                 binding.appBarMain.toolbar.visibility = View.VISIBLE
                 binding.appBarMain.contentMain.menuView.visibility = View.VISIBLE
@@ -128,9 +125,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     window.insetsController?.hide(WindowInsets.Type.statusBars())
                 } else {
-                    val decorView = window.decorView
-                    val uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    decorView.systemUiVisibility = uiOptions
+
+                    val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    window.decorView.systemUiVisibility = uiOptions
 
                 }
 
