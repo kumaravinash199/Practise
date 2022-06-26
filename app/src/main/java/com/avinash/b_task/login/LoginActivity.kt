@@ -20,9 +20,9 @@ class LoginActivity : AppCompatActivity() {
     private fun checkSession() {
         val sessionManager = SessionManager(this)
         val session = sessionManager.findOne()
-        if(session!=null){
+        if(session?.user != null){
             var intent: Intent? = null
-            if (session.isSessionActive && session!!.user!!.username.length>0) {
+            if (session.isSessionActive && session.user!!.username.isNotEmpty()) {
                 intent = Intent(this, MainActivity::class.java)
                 this.startActivity(intent)
                 this.finish()

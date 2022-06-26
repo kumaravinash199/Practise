@@ -10,4 +10,5 @@ class Session : Serializable {
 
     var user: User? = null
     var isSessionActive: Boolean = false
+    var isDatabseCreated: Boolean = false
 }

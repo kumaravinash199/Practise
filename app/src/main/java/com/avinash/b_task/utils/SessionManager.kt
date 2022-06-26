@@ -2,7 +2,6 @@ package com.avinash.b_task.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
@@ -63,7 +62,8 @@ companion object {
     }
 
     override fun deleteAll() {
-        TODO("Not yet implemented")
+        editor.clear()
+        editor.commit()
     }
 
     fun toString(src: Any?): String? {
