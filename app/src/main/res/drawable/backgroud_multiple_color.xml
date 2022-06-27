@@ -3,7 +3,7 @@
     <item android:top="18dp">
         <shape android:shape="rectangle">
             <size android:height="18dp" android:width="18dp"/>
-            <solid android:color="@color/cardview_dark_background"/>
+            <solid android:color="@color/menu_background"/>
         </shape>
     </item>
 

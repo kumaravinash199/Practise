@@ -1,19 +1,30 @@
 package com.avinash.b_task.dashboard
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.view.View
-import android.view.WindowInsets
+import android.util.DisplayMetrics
+import android.util.Log
+import android.util.Size
+import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.EditText
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,6 +38,7 @@ import com.avinash.b_task.database.LoginRepository
 import com.avinash.b_task.database.UserDatabase
 import com.avinash.b_task.databinding.ActivityMainBinding
 import com.avinash.b_task.databinding.NavHeaderMainBinding
+import com.avinash.b_task.databinding.SubMenuMeasureBinding
 import com.avinash.b_task.login.LoginActivity
 import com.avinash.b_task.utils.SessionManager
 import com.google.android.material.navigation.NavigationView
@@ -56,10 +68,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = ActivityMainBinding.inflate(layoutInflater)
         navHeaderMainBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
+
+
         setContentView(binding.root)
         initViews()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun initViews() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -74,14 +89,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         val sessionManager = SessionManager(this)
         val session = sessionManager.findOne()
         if (session != null) {
-            if (session.isSessionActive && session!!.user!!.username.length > 0) {
+            if (session.isSessionActive && session.user!!.username.isNotEmpty()) {
                 navHeaderMainBinding.name.text = session.user!!.username
             }
         }
         binding.appBarMain.toolbar.setNavigationOnClickListener(View.OnClickListener {
-            if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.close()
-            }else{
+            } else {
                 drawerLayout.open()
             }
         })
@@ -96,7 +111,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     CoroutineScope(Dispatchers.IO).launch {
                         repository.deleteAll()
                     }
-                    var intent: Intent? = null
 
 
                 }
@@ -106,59 +120,187 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
 
         })
-        binding.appBarMain.contentMain.ivFullscreen!!.setOnClickListener(View.OnClickListener {
-            if (isFullScreenMode) {
-                binding.appBarMain.contentMain.ivFullscreen!!.setImageResource(R.drawable.ic_full_screen_icon)
-                @Suppress("DEPRECATION")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.insetsController?.show(WindowInsets.Type.statusBars())
-                } else {
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                }
-                binding.appBarMain.toolbar.visibility = View.VISIBLE
-                binding.appBarMain.contentMain.menuView.visibility = View.VISIBLE
-                isFullScreenMode = false
+        binding.appBarMain.contentMain.ivFullscreen.setOnTouchListener { v, event ->
+            when (event?.action) {
+                MotionEvent.ACTION_DOWN ->
+                    if (isFullScreenMode) {
+                        binding.appBarMain.contentMain.ivFullscreen.setImageResource(R.drawable.ic_full_screen_icon)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            window.insetsController?.show(WindowInsets.Type.navigationBars())
+                        } else {
+                            WindowCompat.setDecorFitsSystemWindows(window, true)
+                            WindowInsetsControllerCompat(
+                                window,
+                                binding.root
+                            ).let { controller ->
+                                controller.show(WindowInsetsCompat.Type.navigationBars())
 
-            } else {
-                binding.appBarMain.contentMain.ivFullscreen!!.setImageResource(R.drawable.ic_fullscreen_exit_icon)
-                @Suppress("DEPRECATION")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    window.insetsController?.hide(WindowInsets.Type.statusBars())
-                } else {
+                            }
+                        }
+                        binding.appBarMain.toolbar.visibility = View.VISIBLE
+                        binding.appBarMain.contentMain.menuView.visibility = View.VISIBLE
+                        isFullScreenMode = false
 
-                    val uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN or
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    window.decorView.systemUiVisibility = uiOptions
+                    } else {
+                        binding.appBarMain.contentMain.ivFullscreen.setImageResource(R.drawable.ic_fullscreen_exit_icon)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            window.insetsController?.hide(WindowInsets.Type.systemBars())
+                        } else {
+                            WindowCompat.setDecorFitsSystemWindows(window, false)
+                            WindowInsetsControllerCompat(
+                                window,
+                                binding.root
+                            ).let { controller ->
+                                controller.hide(WindowInsetsCompat.Type.systemBars())
+                                controller.systemBarsBehavior =
+                                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+                            }
+                        }
 
-                }
-
-                binding.appBarMain.toolbar.visibility = View.GONE
-                binding.appBarMain.contentMain.menuView.visibility = View.GONE
-                isFullScreenMode = true
+                        binding.appBarMain.toolbar.visibility = View.GONE
+                        binding.appBarMain.contentMain.menuView.visibility = View.GONE
+                        isFullScreenMode = true
+                    }
             }
-        })
+
+            v?.onTouchEvent(event) ?: true
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.systemBars())
+            window.insetsController?.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+        } else {
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+            WindowInsetsControllerCompat(
+                window,
+                binding.root
+            ).let { controller ->
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+            }
+        }
         handleMenu()
 
     }
 
+    private lateinit var filterPopup: PopupWindow
+    private lateinit var view: SubMenuMeasureBinding
     fun handleMenu() {
         binding.appBarMain.contentMain.viewAnnotate.setOnClickListener(View.OnClickListener {
-
-
             inputDialog()
         })
 
         binding.appBarMain.contentMain.viewMeasure.setOnClickListener(View.OnClickListener {
             it.isSelected = !it.isSelected
-
+            if (deviceType == "Tablet")
+                binding.appBarMain.contentMain.ivArrow.rotation = 180f
+            else
+                binding.appBarMain.contentMain.ivArrow.rotation = 90f
+            filterPopup = showPopupWindow(binding.appBarMain.contentMain.ivArrow)
+            filterPopup.setOnDismissListener {
+                if (deviceType == "Tablet")
+                    binding.appBarMain.contentMain.ivArrow.rotation = 0f
+                else
+                    binding.appBarMain.contentMain.ivArrow.rotation = 270f
+                binding.appBarMain.contentMain.viewMeasure.isSelected =
+                    !binding.appBarMain.contentMain.viewMeasure.isSelected
+            }
         })
+
 
     }
 
+
+    private fun showPopupWindow(anchor: View): PopupWindow {
+        PopupWindow(anchor.context).apply {
+            isOutsideTouchable = true
+            val inflater = LayoutInflater.from(anchor.context)
+            contentView = inflater.inflate(R.layout.sub_menu_measure, null).apply {
+                measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                )
+            }
+            contentView.findViewById<RelativeLayout?>(R.id.viewClear)
+                .setOnClickListener(View.OnClickListener {
+                    dismissPopup()
+                })
+            contentView.findViewById<RelativeLayout?>(R.id.viewEllipse)
+                .setOnClickListener(View.OnClickListener {
+                    dismissPopup()
+                })
+            contentView.findViewById<RelativeLayout?>(R.id.viewDistanse)
+                .setOnClickListener(View.OnClickListener {
+                    dismissPopup()
+                })
+        }.also { popupWindow ->
+            popupWindow.setBackgroundDrawable(null)
+        }.also { popupWindow ->
+            // Absolute location of the anchor view
+            val location = IntArray(2).apply {
+                anchor.getLocationOnScreen(this)
+            }
+            val size = Size(
+                popupWindow.contentView.measuredWidth,
+                popupWindow.contentView.measuredHeight
+            )
+
+            if (deviceType == "Tablet") {
+                val valueX = binding.appBarMain.contentMain.ivArrow.width / 2
+                val valueY = binding.appBarMain.contentMain.ivArrow.height
+                popupWindow.showAtLocation(
+                    anchor,
+                    Gravity.TOP or Gravity.START,
+                    location[0] - valueX,
+                    location[1] - (size.height - valueY)
+                )
+            } else {
+                val displayMetrics = DisplayMetrics()
+                windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+                var width = displayMetrics.widthPixels
+                var height = displayMetrics.heightPixels
+                val valueX =
+                    binding.appBarMain.contentMain.ivArrow.width - resources.getDimensionPixelSize(R.dimen.nav_header_vertical_spacing)
+
+                if (height > 1920) {
+                    val valueY =
+                        binding.appBarMain.contentMain.ivArrow.height - resources.getDimensionPixelSize(
+                            R.dimen.nav_header_vertical_spacing
+                        )
+                    popupWindow.showAtLocation(
+                        anchor,
+                        Gravity.TOP or Gravity.START,
+                        location[0] - (size.width - valueX),
+                        location[1] - (size.height + valueY)
+                    )
+                } else {
+                    val valueY = binding.appBarMain.contentMain.ivArrow.height-resources.getDimensionPixelSize(R.dimen.menu_marginy_land)
+                    popupWindow.showAtLocation(
+                        anchor,
+                        Gravity.TOP or Gravity.START,
+                        location[0] - (size.width - valueX),
+                        location[1] - (size.height+valueY)
+                    )
+                }
+            }
+
+            return popupWindow
+        }
+
+    }
+
+    fun dismissPopup() {
+        filterPopup.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+    }
+
     fun inputDialog() {
-        var m_Text: String = ""
+        var m_Text: String
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Input your text here")
 
@@ -167,10 +309,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         builder.setView(input)
 
         builder.setPositiveButton("OK",
-            DialogInterface.OnClickListener { dialog, which ->
+            DialogInterface.OnClickListener { dialog, _ ->
                 m_Text = input.text.toString()
                 val transaction = supportFragmentManager.beginTransaction()
-                var annotateFragment:AnnotateFragment= AnnotateFragment.newInstance(m_Text)
+                var annotateFragment: AnnotateFragment = AnnotateFragment.newInstance(m_Text)
 
                 transaction.replace(R.id.nav_host_fragment_content_main, annotateFragment)
                 transaction.disallowAddToBackStack()
@@ -179,7 +321,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
             })
         builder.setNegativeButton("Cancel",
-            DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+            DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() })
 
         builder.show()
     }

@@ -10,24 +10,31 @@
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/drawable_list_item.xml" value="0.105" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic__124209_menu_icon.xml" value="0.1" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_baseline.xml" value="0.1" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_baseline_double_arrow_24.xml" value="0.1075" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_baseline_play_arrow_24.xml" value="0.105" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_distance.xml" value="0.1075" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_full_screen_icon.xml" value="0.105" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_fullscreen_exit_icon.xml" value="0.105" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/ic_menu_icon.xml" value="0.1075" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/measure_menu_selector.xml" value="0.1" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/popup_menu_background.xml" value="0.1075" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/text_selector.xml" value="0.1" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/drawable/yellow_circle.xml" value="0.1" />
-        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout-land/content_main.xml" value="0.1" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout-land/content_main.xml" value="0.22" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout-land/sub_menu_measure.xml" value="0.2234375" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout-sw720/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout-sw720/app_bar_main.xml" value="0.1" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout-sw720/content_main.xml" value="0.18" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/activity_login.xml" value="0.16485507246376813" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/activity_main.xml" value="0.13243243243243244" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/app_bar_main.xml" value="0.17772511848341233" />
-        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/content_main.xml" value="0.16483516483516483" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/content_main.xml" value="0.22" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/fragment_gallery.xml" value="0.2" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/fragment_login.xml" value="0.11708860759493671" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/layout.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/nav_header_main.xml" value="0.2" />
+        <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/layout/sub_menu_measure.xml" value="0.18" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/menu/activity_main_drawer.xml" value="0.2" />
         <entry key="..\:/Users/kumar/AndroidStudioProjects/B_Task/app/src/main/res/menu/menu_main.xml" value="0.1" />
       </map>

@@ -18,10 +18,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:paddingTop="30dp"
             android:paddingBottom="30dp"
-            android:background="@color/cardview_dark_background">
+            android:background="@color/menu_background">
             <LinearLayout
                 android:id="@+id/viewAnnotate"
                 android:layout_width="match_parent"
@@ -98,8 +97,8 @@
 
                 <ImageView
                     android:id="@+id/ivArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/viewMeasure"
                     android:src="@drawable/ic_baseline_play_arrow_24" />

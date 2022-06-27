@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll"
             app:navigationIcon="@drawable/ic_menu_icon"
             app:popupTheme="@style/Theme.B_Task.PopupOverlay" />
 
